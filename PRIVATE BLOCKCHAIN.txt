@@ -1,0 +1,56 @@
+Step 1: Install Prerequisites
+   
+   1. Install Geth
+   2. Install Truffle:
+                       #bash
+                       npm install -g truffle
+   3. Install Web3.js:
+                      #bash
+                      npm install web3 
+                     
+Step 2: Start a Private Ethereum Network
+         
+          #bash
+          geth --datadir ./private-chain init genesis.json
+          geth --datadir ./private-chain --networkid 1234 --http --http.addr "0.0.0.0" --http.port 8545 --port 30303 console
+
+Step 3: Create and Deploy a Smart Contract
+
+    1.Create a Truffle Project
+         
+          #bash
+          mkdir MyDApp
+          cd MyDApp
+          truffle init
+   
+    2. Create a Sample Smart Contract
+         
+           #solidity
+         
+           pragma solidity ^0.8.0;
+           contract SimpleStorage {
+                uint256 storedData;
+                function set(uint256 x) public {
+                     storedData = x;
+                 }
+               function get() public view returns (uint256) {
+                      return storedData;
+                  }
+               }
+    3. Compile the Contract:
+           
+              #bash
+              truffle compile
+   
+    4. Deploy the Contract
+            
+               #javascript
+               const SimpleStorage = artifacts.require("SimpleStorage");
+               module.exports = function (deployer) {
+               deployer.deploy(SimpleStorage);
+                };
+      
+        Deploy the contract to the private Ethereum network:
+              
+               #bash
+               truffle migrate --network development
